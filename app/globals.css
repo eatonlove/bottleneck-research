@@ -312,10 +312,15 @@ h1 {
   align-items: start;
 }
 
+.article-layout > article {
+  min-width: 0;
+}
+
 .article-header {
   margin-bottom: 24px;
   padding-bottom: 22px;
   border-bottom: 1px solid var(--line);
+  min-width: 0;
 }
 
 .article-meta {
@@ -371,11 +376,13 @@ h1 {
 
 .markdown p {
   margin: 12px 0;
+  overflow-wrap: anywhere;
 }
 
 .markdown ul,
 .markdown ol {
   padding-left: 22px;
+  min-width: 0;
 }
 
 .markdown table {

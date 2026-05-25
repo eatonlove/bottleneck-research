@@ -2,6 +2,8 @@
 
 Vercel + Supabase 的公开报告库。Codex 生成 Markdown 产业链瓶颈研究报告后，可以通过网页上传 `.md` 文件，或通过 `POST /api/reports` 上传并立即公开。
 
+Production: https://bottleneck-research.vercel.app
+
 ## Local setup
 
 1. Install dependencies:

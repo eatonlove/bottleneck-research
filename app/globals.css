@@ -31,6 +31,7 @@ body {
     BlinkMacSystemFont,
     "Segoe UI",
     sans-serif;
+  overflow-x: hidden;
 }
 
 a {
@@ -57,11 +58,13 @@ textarea {
   border-bottom: 1px solid var(--line);
   background: rgba(247, 247, 243, 0.92);
   backdrop-filter: blur(18px);
+  flex-wrap: wrap;
 }
 
 .brand {
   font-size: 16px;
   font-weight: 750;
+  min-width: 0;
 }
 
 .nav {
@@ -115,6 +118,7 @@ h1 {
   font-size: clamp(32px, 5vw, 56px);
   line-height: 1.03;
   letter-spacing: 0;
+  text-wrap: balance;
 }
 
 .lead {
@@ -158,6 +162,7 @@ h1 {
   display: flex;
   width: min(560px, 100%);
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 .input,
@@ -247,6 +252,7 @@ h1 {
   margin: 0;
   font-size: 21px;
   line-height: 1.35;
+  overflow-wrap: anywhere;
 }
 
 .report-summary {
@@ -340,6 +346,7 @@ h1 {
   color: var(--ink);
   font-size: 16px;
   line-height: 1.82;
+  min-width: 0;
 }
 
 .markdown h1,
@@ -503,11 +510,39 @@ h1 {
   margin: 12px 0 0;
   padding: 14px;
   white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 1024px) {
+  .page,
+  .page-narrow {
+    width: min(100%, calc(100% - 32px));
+  }
+
+  .hero {
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 24px;
+  }
+
+  .article-layout {
+    gap: 28px;
+    grid-template-columns: minmax(0, 1fr) 220px;
+  }
 }
 
 @media (max-width: 860px) {
   .site-header {
-    padding: 0 20px;
+    min-height: auto;
+    padding: 14px 20px;
+  }
+
+  .brand {
+    width: 100%;
+  }
+
+  .nav {
+    width: 100%;
+    justify-content: flex-start;
   }
 
   .hero,
@@ -516,17 +551,51 @@ h1 {
     grid-template-columns: 1fr;
   }
 
+  .page,
+  .page-narrow {
+    width: min(100%, calc(100% - 24px));
+    padding: 28px 0 56px;
+  }
+
+  .hero {
+    gap: 20px;
+    padding: 8px 0 22px;
+  }
+
+  h1 {
+    font-size: clamp(28px, 9vw, 40px);
+    line-height: 1.08;
+  }
+
+  .lead {
+    font-size: 16px;
+    line-height: 1.72;
+  }
+
+  .stat-panel,
+  .form,
+  .empty,
+  .report-card {
+    padding: 18px;
+  }
+
   .date-block {
     text-align: left;
+    min-width: 0;
   }
 
   .toolbar {
     align-items: stretch;
     flex-direction: column;
+    margin: 16px 0;
   }
 
   .search-form {
     width: 100%;
+  }
+
+  .search-form > * {
+    flex: 1 1 100%;
   }
 
   .toc {
@@ -538,5 +607,89 @@ h1 {
 
   .preview-header {
     flex-direction: column;
+  }
+}
+
+@media (max-width: 520px) {
+  .site-header {
+    padding: 12px 14px;
+    gap: 10px;
+  }
+
+  .nav {
+    gap: 6px;
+  }
+
+  .nav a {
+    padding: 8px 9px;
+    font-size: 13px;
+  }
+
+  .page,
+  .page-narrow {
+    width: min(100%, calc(100% - 16px));
+    padding: 22px 0 44px;
+  }
+
+  .hero {
+    padding-top: 2px;
+  }
+
+  .eyebrow,
+  .preview-kicker,
+  .stat-label,
+  .hint,
+  .meta-row,
+  .date-block,
+  .toc,
+  .parsed-preview summary {
+    font-size: 12px;
+  }
+
+  h1 {
+    font-size: clamp(24px, 10vw, 34px);
+  }
+
+  .lead,
+  .markdown {
+    font-size: 15px;
+  }
+
+  .report-title,
+  .preview-header h2 {
+    font-size: 19px;
+  }
+
+  .chip {
+    min-height: 24px;
+    font-size: 12px;
+    padding: 0 8px;
+  }
+
+  .button,
+  .input {
+    min-height: 42px;
+  }
+
+  .stat-number {
+    font-size: 30px;
+  }
+
+  .markdown h1 {
+    font-size: 28px;
+  }
+
+  .markdown h2 {
+    font-size: 22px;
+  }
+
+  .markdown h3 {
+    font-size: 18px;
+  }
+
+  .markdown th,
+  .markdown td {
+    min-width: 96px;
+    padding: 8px;
   }
 }

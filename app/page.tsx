@@ -24,20 +24,11 @@ export default async function HomePage({ searchParams }: HomePageProps) {
       <section className="hero">
         <div>
           <p className="eyebrow">Supply Chain Bottleneck Research</p>
-          <h1>把 Codex 里的产业链洞察沉淀成可检索的报告库</h1>
+          <h1>产业链洞察沉淀报告库</h1>
           <p className="lead">
-            收集由 Codex 生成的行业拆解、二三级瓶颈、关键供应商、证据链与反证，让每份研究都能被检索、复用和继续下钻。
+            行业拆解、二三级瓶颈、关键供应商、证据链与反证，让每份研究都能被检索、复用和继续下钻。
           </p>
         </div>
-        <aside className="stat-panel">
-          <div>
-            <div className="stat-number">{reports.length}</div>
-            <div className="stat-label">当前筛选下的公开报告</div>
-          </div>
-          <Link className="button" href="/submit">
-            提交报告
-          </Link>
-        </aside>
       </section>
 
       <section className="toolbar">

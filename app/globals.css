@@ -428,11 +428,26 @@ h1 {
 }
 
 .chain-body {
+  display: block;
   min-width: 0;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.72);
   padding: 12px;
+}
+
+.chain-body-link {
+  cursor: pointer;
+}
+
+.chain-body-link:hover {
+  border-color: rgba(15, 118, 110, 0.45);
+  box-shadow: var(--shadow);
+}
+
+.chain-body-link:focus-visible {
+  outline: 3px solid var(--accent-soft);
+  outline-offset: 2px;
 }
 
 .chain-level-2 .chain-body {
@@ -455,10 +470,6 @@ h1 {
   font-weight: 800;
   line-height: 1.35;
   overflow-wrap: anywhere;
-}
-
-a.chain-title:hover {
-  color: var(--accent-strong);
 }
 
 .chain-level,

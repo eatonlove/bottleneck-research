@@ -10,12 +10,17 @@ type ViewMode = "list" | "graph";
 function ChainNode({ node }: { node: IndustryChainNode }) {
   const [open, setOpen] = useState(node.level === 1);
   const hasChildren = node.children.length > 0;
-  const title = node.report ? (
-    <Link className="chain-title" href={`/reports/${node.report.slug}`}>
-      {node.name}
-    </Link>
-  ) : (
-    <span className="chain-title">{node.name}</span>
+  const reportHref = node.report ? `/reports/${node.report.slug}` : null;
+  const body = (
+    <>
+      <div className="chain-heading">
+        <span className="chain-title">{node.name}</span>
+        <span className="chain-level">L{node.level}</span>
+        {node.report ? <span className="chain-report-badge">有报告</span> : null}
+      </div>
+      {node.description ? <p>{node.description}</p> : null}
+      {node.report?.summary ? <p className="chain-report-summary">{node.report.summary}</p> : null}
+    </>
   );
 
   return (
@@ -33,15 +38,17 @@ function ChainNode({ node }: { node: IndustryChainNode }) {
         ) : (
           <span className="chain-toggle-placeholder" />
         )}
-        <div className="chain-body">
-          <div className="chain-heading">
-            {title}
-            <span className="chain-level">L{node.level}</span>
-            {node.report ? <span className="chain-report-badge">有报告</span> : null}
-          </div>
-          {node.description ? <p>{node.description}</p> : null}
-          {node.report?.summary ? <p className="chain-report-summary">{node.report.summary}</p> : null}
-        </div>
+        {reportHref ? (
+          <Link
+            aria-label={`打开报告：${node.report?.title ?? node.name}`}
+            className="chain-body chain-body-link"
+            href={reportHref}
+          >
+            {body}
+          </Link>
+        ) : (
+          <div className="chain-body">{body}</div>
+        )}
       </div>
 
       {hasChildren && open ? (

@@ -62,7 +62,9 @@ export type KeywordLink = {
 export type StockRecommendationReport = {
   id: string;
   industry_chain_id: string;
+  industry_chain?: IndustryChainSummary | null;
   report_id: string | null;
+  report?: Pick<Report, "id" | "title" | "slug"> | null;
   title: string;
   slug: string;
   summary: string | null;

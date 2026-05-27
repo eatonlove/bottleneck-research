@@ -698,6 +698,7 @@ h1 {
 }
 
 .stock-report-card {
+  color: inherit;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 16px;
@@ -705,6 +706,20 @@ h1 {
   border-radius: 8px;
   background: var(--surface);
   padding: 16px;
+}
+
+.stock-report-card-link {
+  cursor: pointer;
+}
+
+.stock-report-card-link:hover {
+  border-color: rgba(15, 118, 110, 0.45);
+  box-shadow: var(--shadow);
+}
+
+.stock-report-card-link:focus-visible {
+  outline: 3px solid var(--accent-soft);
+  outline-offset: 2px;
 }
 
 .stock-report-card h3 {

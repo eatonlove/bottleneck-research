@@ -77,7 +77,11 @@ export default async function ReportPage({ params }: ReportPageProps) {
             </div>
             <div className="stock-report-list">
               {stockReports.map((stockReport) => (
-                <article className="stock-report-card" key={stockReport.id}>
+                <Link
+                  className="stock-report-card stock-report-card-link"
+                  href={`/stock-reports/${stockReport.slug}`}
+                  key={stockReport.id}
+                >
                   <div>
                     <h3>{stockReport.title}</h3>
                     {stockReport.summary ? <p>{stockReport.summary}</p> : null}
@@ -95,7 +99,7 @@ export default async function ReportPage({ params }: ReportPageProps) {
                     <div>报告日期</div>
                     <strong>{formatDate(stockReport.report_date, stockReport.created_at)}</strong>
                   </div>
-                </article>
+                </Link>
               ))}
             </div>
           </section>

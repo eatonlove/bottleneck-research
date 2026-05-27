@@ -68,6 +68,35 @@ const REPORT_LIST_SELECT = `
   )
 `;
 
+const STOCK_REPORT_SELECT = `
+  id,
+  industry_chain_id,
+  report_id,
+  title,
+  slug,
+  summary,
+  content_markdown,
+  tickers,
+  status,
+  report_date,
+  created_at,
+  updated_at,
+  industry_chain:industry_chains (
+    id,
+    name,
+    key,
+    level,
+    parent_id,
+    description,
+    sort_order
+  ),
+  report:reports (
+    id,
+    title,
+    slug
+  )
+`;
+
 function normalizeReportRow<T extends { industry_chain?: IndustryChainSummary[] | IndustryChainSummary | null }>(
   report: T
 ) {
@@ -78,6 +107,26 @@ function normalizeReportRow<T extends { industry_chain?: IndustryChainSummary[] 
   return {
     ...report,
     industry_chain: industryChain
+  };
+}
+
+function normalizeStockReportRow<
+  T extends {
+    industry_chain?: IndustryChainSummary[] | IndustryChainSummary | null;
+    report?: StockRecommendationReport["report"][] | StockRecommendationReport["report"] | null;
+  }
+>(stockReport: T) {
+  const industryChain = Array.isArray(stockReport.industry_chain)
+    ? (stockReport.industry_chain[0] ?? null)
+    : (stockReport.industry_chain ?? null);
+  const report = Array.isArray(stockReport.report)
+    ? (stockReport.report[0] ?? null)
+    : (stockReport.report ?? null);
+
+  return {
+    ...stockReport,
+    industry_chain: industryChain,
+    report
   };
 }
 
@@ -306,6 +355,33 @@ export async function getStockRecommendationReportsForReport(
   }
 
   return (data ?? []) as StockRecommendationReport[];
+}
+
+export async function getStockRecommendationReportBySlug(
+  slug: string
+): Promise<StockRecommendationReport | null> {
+  const supabase = createPublicSupabaseClient();
+  if (!supabase) {
+    return null;
+  }
+
+  const { data, error } = await supabase
+    .from("stock_recommendation_reports")
+    .select(STOCK_REPORT_SELECT)
+    .eq("slug", slug)
+    .eq("status", "published")
+    .single();
+
+  if (error) {
+    return null;
+  }
+
+  return normalizeStockReportRow(
+    data as StockRecommendationReport & {
+      industry_chain?: IndustryChainSummary[] | IndustryChainSummary | null;
+      report?: StockRecommendationReport["report"][] | StockRecommendationReport["report"] | null;
+    }
+  ) as StockRecommendationReport;
 }
 
 async function resolveIndustryChain(input: {

@@ -64,6 +64,13 @@ export function stableHash(input: string) {
   return createHash("sha256").update(input).digest("hex");
 }
 
+export function normalizeLookupText(input: string) {
+  return input
+    .trim()
+    .toLowerCase()
+    .replace(/[\s\-_/,，、]+/g, "");
+}
+
 export function validateDate(date: string | undefined) {
   if (!date) {
     return null;
@@ -95,6 +102,8 @@ export function normalizeCreateReportInput(raw: unknown): CreateReportInput {
   const contentMarkdown = String(input.content_markdown ?? "").trim();
   const summary = String(input.summary ?? "").trim();
   const industry = String(input.industry ?? "").trim();
+  const industryChain = String(input.industry_chain ?? "").trim();
+  const industryChainKey = String(input.industry_chain_key ?? "").trim();
   const sourceMode = String(input.source_mode ?? "codex_external").trim();
 
   if (!title) {
@@ -117,11 +126,17 @@ export function normalizeCreateReportInput(raw: unknown): CreateReportInput {
     throw new ValidationError(`摘要最多 ${MAX_SUMMARY_LENGTH} 个字符`);
   }
 
+  if (!industryChain && !industryChainKey && !industry) {
+    throw new ValidationError("请在 Markdown front matter 中提供 industry_chain 或 industry_chain_key");
+  }
+
   return {
     title,
     summary,
     keywords: normalizeKeywords(input.keywords),
     industry,
+    industry_chain: industryChain || industry,
+    industry_chain_key: industryChainKey,
     report_date: validateDate(String(input.report_date ?? "").trim() || undefined) ?? undefined,
     content_markdown: contentMarkdown,
     source_mode: sourceMode || "codex_external"

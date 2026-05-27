@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { ReportCard } from "@/components/report-card";
+import { HomeExplorer } from "@/components/home-explorer";
 import { SearchBox } from "@/components/search-box";
-import { getPublishedReports } from "@/lib/reports";
+import { getIndustryChainTree, getPublishedReports } from "@/lib/reports";
 import { hasSupabaseReadConfig } from "@/lib/supabase";
 
 export const dynamic = "force-dynamic";
@@ -14,7 +14,10 @@ type HomePageProps = {
 
 export default async function HomePage({ searchParams }: HomePageProps) {
   const { q } = await searchParams;
-  const reports = await getPublishedReports(q);
+  const [reports, industryChains] = await Promise.all([
+    getPublishedReports(q),
+    getIndustryChainTree()
+  ]);
 
   return (
     <div className="page">
@@ -47,12 +50,8 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           <code>NEXT_PUBLIC_SUPABASE_URL</code> 和 <code>NEXT_PUBLIC_SUPABASE_ANON_KEY</code>
           后会显示公开报告。
         </div>
-      ) : reports.length > 0 ? (
-        <section className="report-grid">
-          {reports.map((report) => (
-            <ReportCard key={report.id} report={report} />
-          ))}
-        </section>
+      ) : reports.length > 0 || industryChains.length > 0 ? (
+        <HomeExplorer reports={reports} industryChains={industryChains} />
       ) : (
         <div className="empty">
           还没有匹配的报告。可以从 <Link href="/submit">提交页</Link> 发布第一篇。

@@ -13,6 +13,8 @@ type ParsedMarkdownReport = {
   summary: string;
   keywords: string[];
   industry: string;
+  industry_chain: string;
+  industry_chain_key: string;
   report_date: string;
   content_markdown: string;
 };
@@ -105,6 +107,8 @@ function parseMarkdownReport(markdown: string, fileName: string): ParsedMarkdown
     summary: metadata.summary || metadata.description || firstParagraph(content),
     keywords: parseKeywords(metadata.keywords ?? metadata.tags ?? ""),
     industry: metadata.industry || metadata.category || "",
+    industry_chain: metadata.industry_chain || metadata.chain || metadata.industry || "",
+    industry_chain_key: metadata.industry_chain_key || metadata.chain_key || "",
     report_date: metadata.report_date || metadata.date || "",
     content_markdown: standardizeMarkdownContent(title, content)
   };
@@ -154,6 +158,8 @@ export function SubmitForm() {
       summary: report.summary,
       keywords: report.keywords,
       industry: report.industry,
+      industry_chain: report.industry_chain,
+      industry_chain_key: report.industry_chain_key,
       report_date: report.report_date,
       content_markdown: report.content_markdown,
       website: String(formData.get("website") ?? "")
@@ -197,7 +203,8 @@ export function SubmitForm() {
           type="file"
         />
         <p className="hint">
-          支持 front matter：title、summary、keywords、industry、report_date。没有 metadata 时会从 H1、正文和文件名推断。
+          支持 front matter：title、summary、keywords、industry_chain 或
+          industry_chain_key、industry、report_date。没有 metadata 时会从 H1、正文和文件名推断。
         </p>
       </div>
 
@@ -214,7 +221,9 @@ export function SubmitForm() {
           {report.summary ? <p className="preview-summary">{report.summary}</p> : null}
 
           <div className="meta-row">
+            {report.industry_chain ? <span>{report.industry_chain}</span> : null}
             {report.industry ? <span>{report.industry}</span> : null}
+            {report.industry_chain_key ? <span className="chip">{report.industry_chain_key}</span> : null}
             {report.keywords.map((keyword) => (
               <span className="chip" key={keyword}>
                 {keyword}

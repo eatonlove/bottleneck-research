@@ -17,6 +17,7 @@ export function ReportCard({ report }: { report: ReportListItem }) {
         <h2 className="report-title">{report.title}</h2>
         {report.summary ? <p className="report-summary">{report.summary}</p> : null}
         <div className="meta-row">
+          {report.industry_chain ? <span>{report.industry_chain.name}</span> : null}
           {report.industry ? <span>{report.industry}</span> : null}
           <div className="chip-row">
             {report.keywords.slice(0, 6).map((keyword) => (
